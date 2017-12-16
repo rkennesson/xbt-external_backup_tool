@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Script to un-install xbt 2.0 on Ubuntu/Linux Mint systems. "xbt-un-install.sh"
+# (GNU/General Public License version 2.0)
 
 rm_check() {
 
