@@ -2,6 +2,7 @@
 
 # XBT -- External Backup Tool (v. 2.0) -- by Joe Collins. (www.ezeelinux.com)
 # ...Special Thanks to Jeremy O'Connell and Jody James. (December 13th, 2017)
+# (GNU/General Public License version 2.0)
 #
 # A Script to create a snapshot backup of /etc and /home on a dedicated
 # external USB drive.
