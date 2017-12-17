@@ -9,6 +9,12 @@
 #
 # ...And away we go!
 
+# Declare static variables:
+
+user=$USER
+
+host=$HOSTNAME
+
 # Set functions:
 
 backup() {
@@ -17,7 +23,7 @@ backup() {
 
 # Checking for valid media:
 
-if [ ! -d /media/"$USER"/XBT_Drive ]; then
+if [ ! -d /media/$user/XBT_Drive ]; then
 
     clear
     echo $'\n'$"XBT Backup"
@@ -33,21 +39,20 @@ sudo ls > /dev/null
 
 # Making sure user has ownership of the XBT Drive:
 
-user=$USER
 sudo chown $user /media/${user}/XBT_Drive/
 
 # Log file is created in /tmp:
 
-TIMESTAMP="$(date)"
-echo $'\n'$"Backup sent to XBT_Drive USB from $HOSTNAME by user '$USER' on" \
+date_and_time="$(date)"
+echo $'\n'$"Backup sent to XBT_Drive USB from $host by user '$user' on" \
 > /tmp/backup.log
-echo "$TIMESTAMP. Any errors?" >> /tmp/backup.log
+echo "$date_and_time. Any errors?" >> /tmp/backup.log
 
 # Begin backup operations using rsync:
 
 # Creating machine specific directories:
 
-mkdir -p /media/"$USER"/XBT_Drive/XBT_Backups/"$HOSTNAME"
+mkdir -p /media/$user/XBT_Drive/XBT_Backups/$host
 
 # Starting synchronization:
 
@@ -55,10 +60,10 @@ clear
 echo $'\n'$"XBT Backup"
 echo $'\n'$"Backing up /etc..."
 sudo rsync -aH --delete --info=progress2 /etc/ \
-/media/"$USER"/XBT_Drive/XBT_Backups/"$HOSTNAME"/Etc_Backup/ 2>> /tmp/backup.log
+/media/$user/XBT_Drive/XBT_Backups/$host/Etc_Backup/ 2>> /tmp/backup.log
 echo $'\n'$"Backing up /home..."
 sudo rsync -aH --delete --info=progress2 /home/ \
-/media/"$USER"/XBT_Drive/XBT_Backups/"$HOSTNAME"/Home_Backup/ 2>> /tmp/backup.log
+/media/$user/XBT_Drive/XBT_Backups/$host/Home_Backup/ 2>> /tmp/backup.log
 
 # Checking status of rsync exit code:
 
@@ -70,15 +75,15 @@ if [ "$?" == "0" ]; then
 
     # Get the time:
 
-    TIMESTAMP2="$(date +"%T")"
+    time="$(date +"%T")"
     echo "No errors! :)" >> /tmp/backup.log
     clear
-    echo "XBT Backup: Successfully completed at $TIMESTAMP2!" | tee -a /tmp/backup.log
+    echo "XBT Backup: Successfully completed at $time!" | tee -a /tmp/backup.log
 
     # Log file is created or appended on XBT_Drive from /tmp:
     # (backup.log will be removed from /tmp on next reboot.)
 
-    cat /tmp/backup.log >> /media/"$USER"/XBT_Drive/XBT_Backups/xbt-backup.log
+    cat /tmp/backup.log >> /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log
 
 else
 
@@ -90,12 +95,12 @@ else
 
     # Get the time:
 
-    TIMESTAMP2="$(date +"%T")"
+    time="$(date +"%T")"
     clear
-    echo "XBT Backup: Exited with errors at $TIMESTAMP2!" \
+    echo "XBT Backup: Exited with errors at $time!" \
     | tee -a /tmp/backup.log
     echo "Please review XBT Log to see them."
-    cat /tmp/backup.log >> /media/"$USER"/XBT_Drive/XBT_Backups/xbt-backup.log
+    cat /tmp/backup.log >> /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log
     echo "Wait! Syncing drives..."
     sync
     echo "...Done."
@@ -119,7 +124,7 @@ restore() {
 
 # Checking for valid media:
 
-if [ ! -d /media/"$USER"/XBT_Drive ]; then
+if [ ! -d /media/$user/XBT_Drive ]; then
 
     clear
 	echo $'\n'$"XBT Restore"
@@ -139,11 +144,11 @@ echo $'\n'$"XBT Restore"
 
 # CHeck for valid media and the host's backup directory:
 
-if [ ! -d /media/"$USER"/XBT_Drive/XBT_Backups/"$HOSTNAME"/ ]; then
+if [ ! -d /media/$user/XBT_Drive/XBT_Backups/$host/ ]; then
 
-    echo "XBT Error: Cannot find valid backup directory for $HOSTNAME!"
+    echo "XBT Error: Cannot find valid backup directory for $host!"
     echo "Drive may not have been used to backup this machine or the"
-    echo "XBT_Backups/$HOSTNAME directory may have been moved or deleted."
+    echo "XBT_Backups/$host directory may have been moved or deleted."
     greeting
 
 fi
@@ -161,7 +166,7 @@ read -n 1 -s choice
         read -n 1 -s
         echo $'\n'$"Restoring /home... Please DO NOT open any applications."
         sudo rsync -aH --delete --info=progress2 \
-        /media/"$USER"/XBT_Drive/XBT_Backups/"$HOSTNAME"/Home_Backup/ \
+        /media/$user/XBT_Drive/XBT_Backups/$host/Home_Backup/ \
         /home/
 
             # Checking status of rsync exit code:
@@ -410,7 +415,7 @@ _EOF_
 
 # COnfirming that XBT_Drive USB is ready:
 
-if [ ! -d /media/"$USER"/XBT_Drive ]; then
+if [ ! -d /media/$user/XBT_Drive ]; then
 
     # Alert user that XBT Drive is not found:
 
@@ -550,7 +555,7 @@ log() {
 
 # Check for valid media and log file:
 
-if [ ! -f /media/"$USER"/XBT_Drive/XBT_Backups/xbt-backup.log ]; then
+if [ ! -f /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log ]; then
 
     # Check for log file and return to Main Menu with error if not found:
 
@@ -565,7 +570,7 @@ fi
 # Load log file into less:
 # "less +G" opens file and scrolls to end."
 
-less +G /media/"$USER"/XBT_Drive/XBT_Backups/xbt-backup.log
+less +G /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log
 clear
 greeting
 
