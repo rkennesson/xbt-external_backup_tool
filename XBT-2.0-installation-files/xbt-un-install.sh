@@ -14,7 +14,7 @@ XBT Error: A file was not removed or could not be found. This means that XBT
 was not installed with the xbt-install.sh script, installed manually into
 unexpected directories or was not installed at all.
 
-Please refer to xbt-readme.txt for more information about installation options.
+Please refer to README.md for more information about installation options.
 
 Press any key to exit XBT Un-install.
 _EOF_

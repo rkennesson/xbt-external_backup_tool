@@ -14,7 +14,7 @@ XBT (2.0) Installation
  /usr/local/bin and create a menu entry for the desktop. You can run the
  xbt-un-install.sh script later to remove XBT and its menu entry automatically.
 
- Please refer to xbt-readme-txt for more information about installation options.
+ Please refer to README.md for more information about installation options.
 
  Thanks for using XBT! Press any key to continue:
 _EOF_
