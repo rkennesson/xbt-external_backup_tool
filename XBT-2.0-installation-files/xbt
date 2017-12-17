@@ -250,7 +250,7 @@ cat << _EOF_
 
 XBT Drive Setup
 
- You nust create an XBT Drive before you can use XBT.
+ You must create an XBT Drive before you can use XBT.
 
  You can use any USB storage device for your XBT Drive. It should have enough
  storage capacity to hold all of the data in the /home directories of all the
