@@ -349,7 +349,7 @@ if test "$choice" == "y"; then
 	    # Creating new ext3 file sysem:
 
 	    sudo mkfs.ext4 -F ${chosen_disk}1
-	    echo "${chosen_disk} has been formatted! Adding lebel..."
+	    echo "${chosen_disk} has been formatted! Adding label..."
 
         # Labeling the drive "XBT_Drive":
 
