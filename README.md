@@ -1,5 +1,5 @@
 # xbt-external_backup_tool
-XBT -- External Backup Tool (Version 2.0)
+XBT -- External Backup Tool (Version 2.1)
 
 1. Description:
 
