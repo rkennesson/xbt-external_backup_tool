@@ -1,5 +1,5 @@
 # xbt-external_backup_tool
-XBT -- External Backup Tool (Version 2.1)
+XBT -- External Backup Tool (Version 2.2)
 
 1. Description:
 
@@ -9,20 +9,20 @@ XBT -- External Backup Tool (Version 2.1)
 
 2. Installation:
 
- Unzip the 'XBT-2.1-installation-files' directory by dragging it out of the
+ Unzip the 'XBT-2.2-installation-files' directory by dragging it out of the
  Archive Manager application onto your desktop and click on it see the files
 
  You can now install XBT from the provided xbt-install.sh script by clicking on
  the xbt-install.sh file inside a file manager. Choose "Run In Terminal" from
  the pop up menu. Alternately, you can choose Open In Terminal by right-clicking
- anywhere within the 'XBT-2.1-installation-files' directory. Run the
+ anywhere within the 'XBT-2.2-installation-files' directory. Run the
  xbt-install.sh script with this command:
 
   ./xbt-install.sh
 
  The installer will guide you from there.
 
- Note: The xbt-install.sh script MUST be run within 'XBT-2.1-installation-files'
+ Note: The xbt-install.sh script MUST be run within 'XBT-2.2-installation-files'
  directory or it will exit with errors. It CANNOT be run directly from the zip
  archive. It is a good idea to log out and log back in before using XBT. The
  desktop needs to find the launcher and icon files.
@@ -30,7 +30,7 @@ XBT -- External Backup Tool (Version 2.1)
 3. Manual Installation:
 
  XBT can be run from a terminal simply by adding the script to either your ~/bin
- directory or /usr/local/bin. Open a terminal in 'XBT-2.1-installation-files'
+ directory or /usr/local/bin. Open a terminal in 'XBT-2.2-installation-files'
  and use 'cp xbt ~/bin/' if you already have a personal bin directory. You can
  copy it to /usr/loca/bin with 'sudo cp xbt /userlocal/bin/'
 
@@ -48,7 +48,7 @@ XBT -- External Backup Tool (Version 2.1)
  xbt.install.sh script explained above. It can be run from anywhere within
  the directory structure.
 
- Open the 'XBT-2.1-installation-files' directory and click on xbt-ub-install.sh
+ Open the 'XBT-2.2-installation-files' directory and click on xbt-ub-install.sh
  file and choose Run in Terminal.  The script will guide you from there.
 
  You can also navaigate to the xbt-un-install.sh file from within a terminal and

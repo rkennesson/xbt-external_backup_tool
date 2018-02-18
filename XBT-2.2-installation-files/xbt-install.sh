@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Script to install XBT 2.1 on Ubuntu/Linux Mint systems. "xbt-install.sh"
+# Script to install XBT 2.2 on Ubuntu/Linux Mint systems. "xbt-install.sh"
 # (GNU/General Public License version 2.0)
 # Greeting user:
 
 cat << _EOF_
-XBT (2.1) Installation
+XBT (2.2) Installation
 
  Welcome to XBT!
 
