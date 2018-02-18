@@ -41,6 +41,13 @@ sudo ls > /dev/null
 
 sudo chown $user /media/${user}/XBT_Drive/
 
+# Generate XBT log file file if not there already:
+
+if [ ! -f /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log ]; then
+    echo "XBT -- External Backup Tool - Log File" \
+    > /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log
+fi
+
 # Log file is created in /tmp:
 
 date_and_time="$(date)"
