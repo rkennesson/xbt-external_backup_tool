@@ -9,15 +9,17 @@
 #
 # ...And away we go!
 
+# Check for rsync, less and parted, install if needed:
+
+dpkg -l | grep -qw less || sudo apt-get install -yyq less
+dpkg -l | grep -qw parted || sudo apt-get install -yyq parted
+dpkg -l | grep -qw rsync || sudo apt-get install -yyq rsync
+
 # Declare static variables:
 
 user=$USER
 
 host=$HOSTNAME
-
-# Check for rsync, install if needed:
-
-dpkg -l | grep -qw rsync || sudo apt-get install -yyq rsync
 
 # Set functions:
 
