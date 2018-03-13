@@ -391,7 +391,7 @@ if test "$choice" == "y"; then
 
         # Un-mounting the drive:
 
-        sudo umount ${chosen_disk}1
+        sudo umount ${chosen_disk}1 >/dev/null 2>&1
 
         # Write 2 GBs of zeros to clear old partition tables:
 
