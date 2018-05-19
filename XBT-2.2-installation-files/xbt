@@ -168,6 +168,14 @@ echo $'\n'$"Wait! Syncing drives..."
 sync
 echo "..Done."
 echo "It's now safe to remove XBT_Drive."
+
+# Exit if running from command line:
+
+if [ "$1" == "--backup" ]; then
+	echo "Thanks for using XBT! Goodbye..."
+	exit
+fi
+
 greeting
 
 }
@@ -274,6 +282,13 @@ read -n 1 -s choice
         greeting
 
     fi
+
+# Exit if running from command line:
+
+if [ "$1" == "--restore" ]; then
+	echo "Thanks for using XBT! Goodbye..."
+	exit
+fi
 
 clear
 greeting
@@ -599,8 +614,14 @@ help() {
 
 _EOF_
 
-   clear
-   greeting
+# Exit if running from command line:
+
+if [ "$1" == "--help" ]; then
+	exit
+fi
+
+clear
+greeting
 
 }
 
