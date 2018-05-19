@@ -171,8 +171,8 @@ echo "It's now safe to remove XBT_Drive."
 
 # Exit if running from command line:
 
-if [ "$1" == "--backup" ]; then
-	echo "Thanks for using XBT! Goodbye..."
+if [ "$mode" == "CLI" ]; then
+	echo "Exiting XBT.. Goodbye!"
 	exit
 fi
 
@@ -285,8 +285,7 @@ read -n 1 -s choice
 
 # Exit if running from command line:
 
-if [ "$1" == "--restore" ]; then
-	echo "Thanks for using XBT! Goodbye..."
+if [ "$mode" == "CLI" ]; then
 	exit
 fi
 
@@ -616,7 +615,7 @@ _EOF_
 
 # Exit if running from command line:
 
-if [ "$1" == "--help" ]; then
+if [ "$mode" == "CLI" ]; then
 	exit
 fi
 
@@ -648,6 +647,13 @@ fi
 
 less +G /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log
 clear
+
+# Exit if running from command line:
+
+if [ "$mode" == "CLI" ]; then
+	exit
+fi
+
 greeting
 
 }
@@ -657,18 +663,22 @@ greeting
 # Checking for command line arguments:
 
 if [ "$1" == "--help" ]; then
+	mode=CLI
 	help
 fi
 
 if [ "$1" == "--log" ]; then
+	mode=CLI	
 	log
 fi
 
 if [ "$1" == "--backup" ]; then
+	mode=CLI	
 	backup
 fi
 
 if [ "$1" == "--restore" ]; then
+	mode=CLI	
 	restore
 fi
 
