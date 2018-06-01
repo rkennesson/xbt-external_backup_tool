@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# XBT -- External Backup Tool (v. 2.2) -- by Joe Collins. (www.ezeelinux.com)
+# XBT -- External Backup Tool (v. 2.3) -- by Joe Collins. (www.ezeelinux.com)
 # ...Special Thanks to Jeremy O'Connell and Jody James. (February 18th, 2017)
 # (GNU/General Public License version 2.0)
 #
@@ -72,14 +72,14 @@ mkdir -p /media/$user/XBT_Drive/XBT_Backups/$host
 clear
 echo $'\n'$"XBT Backup"
 echo $'\n'$"Backing up /etc..."
-sudo rsync -aH --delete --info=progress2 /etc/ \
+sudo rsync -aHv --delete --progress /etc/ \
 /media/$user/XBT_Drive/XBT_Backups/$host/Etc_Backup/ 2>> /tmp/backup.log
 
 # Checking status of rsync exit code:
 
 if [ "$?" != "0" ]; then
     echo "Starting second pass for /etc..." | tee -a /tmp/backup.log
-    sudo rsync -aH --delete --info=progress2 /etc/ \
+    sudo rsync -aHv --delete --progress /etc/ \
     /media/$user/XBT_Drive/XBT_Backups/$host/Etc_Backup/ 2>> /tmp/backup.log
     if [ "$?" != "0" ]; then
         echo "...Second pass had some errors errors. Moving on to /home anyway." \
@@ -90,14 +90,14 @@ if [ "$?" != "0" ]; then
 fi
 
 echo $'\n'$"Backing up /home..."
-sudo rsync -aH --delete --info=progress2 /home/ \
+sudo rsync -aHv --delete --progress /home/ \
 /media/$user/XBT_Drive/XBT_Backups/$host/Home_Backup/ 2>> /tmp/backup.log
 
 # Checking status of rsync exit code:
 
 if [ "$?" != "0" ]; then
     echo "Starting second pass for /home..." | tee -a /tmp/backup.log
-    sudo rsync -aH --delete --info=progress2 /home/ \
+    sudo rsync -aHv --delete --progress /home/ \
     /media/$user/XBT_Drive/XBT_Backups/$host/Home_Backup/ 2>> /tmp/backup.log
 fi
 
@@ -227,7 +227,7 @@ read -n 1 -s choice
         echo "Close any running applications and press any key to continue."
         read -n 1 -s
         echo $'\n'$"Restoring /home... Please DO NOT open any applications."
-        sudo rsync -aH --delete --info=progress2 \
+        sudo rsync -aHv --delete --progress \
         /media/$user/XBT_Drive/XBT_Backups/$host/Home_Backup/ \
         /home/
 
@@ -467,7 +467,7 @@ greeting() {
 
 	cat << _EOF_
 
-XBT -- External Backup Tool (Version 2.2)
+XBT -- External Backup Tool (Version 2.3)
 
 Main Menu: What would you like to do?
 
@@ -534,7 +534,7 @@ help() {
     less << _EOF_
 
  XBT -- External Backup Tool -- Help
- (v. 2.2)
+ (v. 2.3)
 
  Press "q" to exit this Help page and return to Main Menu.
 
