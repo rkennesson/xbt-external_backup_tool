@@ -323,11 +323,14 @@ XBT Drive Setup
 
  You can use any USB storage device for your XBT Drive. It should have enough
  storage capacity to hold all of the data in the /home directories of all the
- machines you'd like to make backups from. XBT Drive Setup will format and
- label a drive for use with XBT. You can use this drive to store other data
- after you run the fist XBT backup. Running the XBT backup will set the
- permissions so that you will own the drive and then new files and directories
- can be created outside of the /XBT_Backups directory.
+ machines you'd like to make backups from. This tool works with USB storage 
+ devices with under 2 TB of total data capacity. Lager drives will have to be 
+ formatted manually. XBT Drive Setup will format and label a drive for use with 
+ XBT. The partition will be labeled "XBT_Drive" so the program can find it.
+ The drive MUST be formatted with a native Linux file system such as Ext4
+ or XFS for the backups to retain the correct permissions. You must run XBT
+ Backup to set the correct ownership permissions for you new XBT Drive. 
+
 
   *************************************************************************
   * WARNING: XBT Drive Setup will clear ALL DATA on the USB drive chosen! *
