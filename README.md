@@ -1,38 +1,42 @@
 # xbt-external_backup_tool
-XBT -- External Backup Tool (Version 2.3)
+XBT -- External Backup Tool (Version 3.0)
 
 1. Description:
 
  XBT is a program that makes keeping all of your user data safely backed up on
  a dedicated External USB drive easy. XBT works with Ubuntu 16.04 onward and
- the Linux Mint 18.x series.
+ the Linux Mint 18.x series and up. It also works with Debian 9 "Stretch" 
+ and  distributions based on Debian like Linux Mint Debian Edition 3 "Cindy,"
+ and MX Linux. 
 
 2. Installation:
 
- Unzip the 'XBT-2.3-installation-files' directory by dragging it out of the
- Archive Manager application onto your desktop and click on it see the files
+ Unaip the file 'xbt_3.0.deb' and put it anywhere you wish. If you are working
+ with a gra[hic desktop environment, simply drag on to the desktop and then
+ double ckick it. Your distribution's deb package installer should open up and
+ install it automatically.
 
- You can now install XBT from the provided xbt-install.sh script by clicking on
- the xbt-install.sh file inside a file manager. Choose "Run In Terminal" from
- the pop up menu. Alternately, you can choose Open In Terminal by right-clicking
- anywhere within the 'XBT-2.3-installation-files' directory. Run the
- xbt-install.sh script with this command:
+ You can also install any deb package from a command line with these commands:
 
-  ./xbt-install.sh
+ sudo dpkg -i /path/to/deb/file followed by sudo apt-get install -f .
+ 
+ --or--
 
- The installer will guide you from there.
+ sudo apt install ./name.deb (or /path/to/package/name.deb ). ...
 
- Note: The xbt-install.sh script MUST be run within 'XBT-2.3-installation-files'
- directory or it will exit with errors. It CANNOT be run directly from the zip
- archive. It is a good idea to log out and log back in before using XBT. The
- desktop needs to find the launcher and icon files.
+ --or--
 
+ Install gdebi, navaigate to the directory containing the deb file you wish to
+ install and then run:
+
+ suod gdebi name.deb
+
+ XBT will now be avaialble in your desktop menu.
+ 
 3. Manual Installation:
 
- XBT can be run from a terminal simply by adding the script to either your ~/bin
- directory or /usr/local/bin. Open a terminal in 'XBT-2.3-installation-files'
- and use 'cp xbt ~/bin/' if you already have a personal bin directory. You can
- copy it to /usr/loca/bin with 'sudo cp xbt /userlocal/bin/'
+ Copy the file 'xbt' to either to /usr/local/bin or ~/bin, if you have a local
+ bin folder setup. 
 
  The program is immediately available for use by running the command 'xbt' in
  any terminal. XBT offers some direct terminal commands to jump to common
@@ -44,31 +48,24 @@ XBT -- External Backup Tool (Version 2.3)
 
 4. Un-installation
 
- The xbt-un-install.sh script will remove XBT if it was installed with the
- xbt.install.sh script explained above. It can be run from anywhere within
- the directory structure.
+ You can un-install XBT simply by running this command:
 
- Open the 'XBT-2.3-installation-files' directory and click on xbt-ub-install.sh
- file and choose Run in Terminal.  The script will guide you from there.
+ sudo apt remove xbt
 
- You can also navaigate to the xbt-un-install.sh file from within a terminal and
- run it with this command:
-
-  ./xbt.un-install.sh
-
- Errors reported in this script just mean it could not find all of the XBT
- files. This usually means XBT was not installed with xbt-install.sh and it
- will have to be removed manually.
+ You can slo search for 'xbt' in your graphic software manager and choose to
+ riomve it that way.
 
  Note: XBT only consists of three files
 
-    xbt = automatically installed in /usr/local/bin
+    xbt = automatically installed in /usr/bin
     xbt.desktop = automatically installed in /user/share/application
     xbt-icon.xpm = automatically installed in /usr/share/icons
 
  You can use any file search utility to look for these fiels if you want to
  remove them. XBT does not create any configuration files on the system.
- One called xbt-backup.log and that is placed on the dedicated XBT Drive.
+
+ There is one called xbt-backup.log and that is placed on the dedicated
+ XBT Drive.
 
 5. License.
 

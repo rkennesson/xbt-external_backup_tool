@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# XBT -- External Backup Tool (v. 2.3) -- by Joe Collins. (www.ezeelinux.com)
+# XBT -- External Backup Tool (v. 3.0) -- by Joe Collins. (www.ezeelinux.com)
 # ...Special Thanks to Jeremy O'Connell and Jody James. (February 18th, 2017)
 # (GNU/General Public License version 2.0)
 #
@@ -470,7 +470,7 @@ greeting() {
 
 	cat << _EOF_
 
-XBT -- External Backup Tool (Version 2.3)
+XBT -- External Backup Tool (Version 3.0)
 
 Main Menu: What would you like to do?
 
@@ -537,7 +537,7 @@ help() {
     less << _EOF_
 
  XBT -- External Backup Tool -- Help
- (v. 2.3)
+ (v. 3.0)
 
  Press "q" to exit this Help page and return to Main Menu.
 
