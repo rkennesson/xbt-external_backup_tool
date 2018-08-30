@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-Name=XBT
+Name=XBT -  External Backup Tool
 GenericName=XBT
 Comment=XBT Extnerabl USB drive backup tool.
 Exec=/usr/bin/xbt

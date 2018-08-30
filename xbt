@@ -4,6 +4,8 @@
 # ...Special Thanks to Jeremy O'Connell and Jody James. (February 18th, 2017)
 # (GNU/General Public License version 2.0)
 #
+# For Debian 9 and up, Ubuntu 16.04 and up and Linux Mint 18.x and up.
+#
 # A Script to create a snapshot backup of /etc and /home on a dedicated
 # external USB drive.
 #
@@ -389,7 +391,7 @@ if test "$choice" == "y"; then
 
     # Last Chance! Asking user if they want to format the chosen disk:
 
-    echo $'\n'$"Are you sure you to use $chosen_disk for XBT Drive??"
+    echo $'\n'$"Are you sure you want to use $chosen_disk for the XBT Drive??"
     echo "WARNING!! This will delete ALL DATA already on the drive!"
     echo $'\n'$"Type in 'YES' in all caps and press Enter to continue."
     echo "Press Enter to abort and return to XBT Main Menu."
