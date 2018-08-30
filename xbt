@@ -4,6 +4,8 @@
 # ...Special Thanks to Jeremy O'Connell and Jody James. (February 18th, 2017)
 # (GNU/General Public License version 2.0)
 #
+# For Debian 9 and up, Ubuntu 16.04 and up and Linux Mint 18.x and up.
+#
 # A Script to create a snapshot backup of /etc and /home on a dedicated
 # external USB drive.
 #
