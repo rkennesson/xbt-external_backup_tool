@@ -420,7 +420,7 @@ if test "$choice" == "y"; then
 
 	    sudo parted --script ${chosen_disk} mklabel msdos mkpart primary ext4 1MiB 100%
 
-	    # Creating new ext3 file sysem:
+	    # Creating new ext4 file sysem:
 
 	    sudo mkfs.ext4 -F ${chosen_disk}1
 	    echo "${chosen_disk} has been formatted! Adding label..."
@@ -432,7 +432,7 @@ if test "$choice" == "y"; then
 
         # Returning to Main Menu:
 
-        # Clear any accidental input during restore:
+        # Clear any accidental input:
 
         read -t 1 -n 10000 discard
 
