@@ -47,7 +47,7 @@ sudo ls > /dev/null
 
 # Making sure user has ownership of the XBT Drive:
 
-sudo chown "$user" /media/"${user}"/XBT_Drive/
+sudo chown "$user" /media/"$user"/XBT_Drive/
 
 # Generate XBT log file file if not there already:
 
@@ -366,7 +366,7 @@ if [ "$choice" == "y" ]; then
 
     # Assigning choice to a variable and fixing the format of the answer:
 
-    chosen_disk=$( sed -n "$line p" /tmp/xbt-usb-list.tmp | awk '{print $1}' )
+    chosen_disk=$( sed -n "$line p" /tmp/xbt-usb-list.tmp | awk "print $1" )
 
     sudo rm /tmp/xbt-usb-list.tmp
 
@@ -399,28 +399,28 @@ if [ "$choice" == "y" ]; then
 
         # Format the chosen USB drive:
 
-        echo "Formatting ${chosen_disk}. Please wait..."
+        echo "Formatting $chosen_disk. Please wait..."
 
         # Un-mounting the drive:
 
-        sudo umount "${chosen_disk}"1 >/dev/null 2>&1
+        sudo umount "$chosen_disk"1 >/dev/null 2>&1
 
         # Write 2 GBs of zeros to clear old partition tables:
 
-        sudo dd if=/dev/zero of="${chosen_disk}" bs=1024k count=2048
+        sudo dd if=/dev/zero of="$chosen_disk" bs=1024k count=2048
 
         # Creating new label and partition:
 
-        sudo parted --script "${chosen_disk}" mklabel msdos mkpart primary ext4 1MiB 100%
+        sudo parted --script "$chosen_disk" mklabel msdos mkpart primary ext4 1MiB 100%
 
         # Creating new ext4 file sysem:
 
-        sudo mkfs.ext4 -F "${chosen_disk}"1
-        echo "${chosen_disk} has been formatted! Adding label..."
+        sudo mkfs.ext4 -F "$chosen_disk"1
+        echo "$chosen_disk has been formatted! Adding label..."
 
         # Labeling the drive "XBT_Drive":
 
-        sudo e2label "${chosen_disk}"1 "XBT_Drive"
+        sudo e2label "$chosen_disk"1 "XBT_Drive"
         sync
 
         # Returning to Main Menu:
@@ -440,7 +440,7 @@ if [ "$choice" == "y" ]; then
 
         # Abort format and return to Main Menu:
 
-        echo "XBT Drive Setup canceled. ${chosen_disk} not formatted."; sleep 3
+        echo "XBT Drive Setup canceled. $chosen_disk not formatted."; sleep 3
         clear
         greeting
 
