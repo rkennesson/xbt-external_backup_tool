@@ -43,7 +43,10 @@ fi
 
 # Checking for sudo permissions:
 
-sudo ls > /dev/null
+if [ "$(id -u)" -ne 0 ]; then 
+    echo XBT Must be run as root 1>&2
+    exit 1 # terminate and indicate error
+fi
 
 # Making sure user has ownership of the XBT Drive:
 
