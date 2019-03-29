@@ -222,7 +222,7 @@ echo $'\n'$"Any new files created in /home since last backup WILL BE DELETED!"
 echo "Are you sure you want to restore now? [y/N]"
 read -r -n 1 -s choice
 
-    if test "$choice" == "y"; then
+    if "$choice" == "y"; then
 
         # Giving user a chance to close other apps and starting rsync.
 
