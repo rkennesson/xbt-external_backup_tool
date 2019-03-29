@@ -13,9 +13,9 @@
 
 # Check for rsync, less and parted, install if needed:
 
-dpkg -l | grep -qw less || sudo apt-get install -yyq less
-dpkg -l | grep -qw parted || sudo apt-get install -yyq parted
-dpkg -l | grep -qw rsync || sudo apt-get install -yyq rsync
+hash less 2>/dev/null || sudo apt-get install -yyq less
+hash parted 2>/dev/null || sudo apt-get install -yyq parted
+hash rsync 2>/dev/null || sudo apt-get install -yyq rsync
 
 # Declare static variables:
 
