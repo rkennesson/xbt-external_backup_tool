@@ -31,12 +31,12 @@ backup() {
 
 # Checking for valid media:
 
-if [ ! -d /media/$user/XBT_Drive ]; then
+if [ ! -d /media/"$user"/XBT_Drive ]; then
 
     clear
     echo $'\n'$"XBT Backup"
     echo "XBT Error: NO XBT DRIVE FOUND! Please make sure XBT_Drive USB is connected."
-	echo "If you just set up the XBT Drive, remove it and plug it back in."
+    echo "If you just set up the XBT Drive, remove it and plug it back in."
     greeting
 
 fi
@@ -47,13 +47,13 @@ sudo ls > /dev/null
 
 # Making sure user has ownership of the XBT Drive:
 
-sudo chown $user /media/${user}/XBT_Drive/
+sudo chown "$user" /media/"${user}"/XBT_Drive/
 
 # Generate XBT log file file if not there already:
 
-if [ ! -f /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log ]; then
+if [ ! -f /media/"$user"/XBT_Drive/XBT_Backups/xbt-backup.log ]; then
     echo "XBT -- External Backup Tool - Log File" \
-    > /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log
+    > /media/"$user"/XBT_Drive/XBT_Backups/xbt-backup.log
 fi
 
 # Log file is created in /tmp:
@@ -67,23 +67,23 @@ echo "$date_and_time. Any errors?" >> /tmp/backup.log
 
 # Creating machine specific directories:
 
-mkdir -p /media/$user/XBT_Drive/XBT_Backups/$host
+mkdir -p /media/"$user"/XBT_Drive/XBT_Backups/"$host"
 
 # Starting synchronization:
 
 clear
 echo $'\n'$"XBT Backup"
 echo $'\n'$"Backing up /etc..."
-sudo rsync -aHv --delete --progress /etc/ \
-/media/$user/XBT_Drive/XBT_Backups/$host/Etc_Backup/ 2>> /tmp/backup.log
+
 
 # Checking status of rsync exit code:
 
-if [ "$?" != "0" ]; then
+if ! sudo rsync -aHv --delete --progress /etc/ \
+/media/"$user"/XBT_Drive/XBT_Backups/"$host"/Etc_Backup/ 2>> /tmp/backup.log; then
     echo "Starting second pass for /etc..." | tee -a /tmp/backup.log
-    sudo rsync -aHv --delete --progress /etc/ \
-    /media/$user/XBT_Drive/XBT_Backups/$host/Etc_Backup/ 2>> /tmp/backup.log
-    if [ "$?" != "0" ]; then
+    
+    if ! sudo rsync -aHv --delete --progress /etc/ \
+    /media/"$user"/XBT_Drive/XBT_Backups/"$host"/Etc_Backup/ 2>> /tmp/backup.log; then
         echo "...Second pass had some errors errors. Moving on to /home anyway." \
         | tee -a /tmp/backup.log
         # Set error flag for log file completion:
@@ -92,22 +92,22 @@ if [ "$?" != "0" ]; then
 fi
 
 echo $'\n'$"Backing up /home..."
-sudo rsync -aHv --delete --progress /home/ \
-/media/$user/XBT_Drive/XBT_Backups/$host/Home_Backup/ 2>> /tmp/backup.log
+
 
 # Checking status of rsync exit code:
 
-if [ "$?" != "0" ]; then
+if sudo rsync -aHv --delete --progress /home/ \
+/media/"$user"/XBT_Drive/XBT_Backups/"$host"/Home_Backup/ 2>> /tmp/backup.log; then
     echo "Starting second pass for /home..." | tee -a /tmp/backup.log
-    sudo rsync -aHv --delete --progress /home/ \
-    /media/$user/XBT_Drive/XBT_Backups/$host/Home_Backup/ 2>> /tmp/backup.log
+    
 fi
 
-if [ "$?" == "0" ]; then
+if sudo rsync -aHv --delete --progress /home/ \
+    /media/"$user"/XBT_Drive/XBT_Backups/"$host"/Home_Backup/ 2>> /tmp/backup.log; then
 
     # Clear any accidental input during backup:
 
-    read -t 1 -n 10000 discard
+    read -r -t 1 -n 10000 discard
 
     # Get the time:
 
@@ -130,7 +130,7 @@ if [ "$?" == "0" ]; then
     # Log file is created or appended on XBT_Drive from /tmp:
     # (backup.log will be removed from /tmp on next reboot.)
 
-    cat /tmp/backup.log >> /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log
+    cat /tmp/backup.log >> /media/"$user"/XBT_Drive/XBT_Backups/xbt-backup.log
 
 else
 
@@ -138,7 +138,7 @@ else
 
     # Clear any accidental input during backup:
 
-    read -t 1 -n 10000 discard
+    read -r -t 1 -n 10000 discard
 
     # Get the time:
 
@@ -148,7 +148,7 @@ else
 
     # Report erros with /etc backup if there were any:
 
-    if  [ "$etc_error_code" += "yes" ]; then
+    if "$(etc_error_code)" += "yes"; then
         echo "XBT Backup: There were some errors with /etc backup!"
         echo "Please review XBT Log to see them."
     fi
@@ -156,7 +156,7 @@ else
     echo "XBT Backup: Backup of /home had errors after two passes at $time!" \
     | tee -a /tmp/backup.log
     echo "Please review XBT Log to see them."
-    cat /tmp/backup.log >> /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log
+    cat /tmp/backup.log >> /media/"$user"/XBT_Drive/XBT_Backups/xbt-backup.log
     echo "Wait! Syncing drives..."
     sync
     echo "...Done."
@@ -174,8 +174,8 @@ echo "It's now safe to remove XBT_Drive."
 # Exit if running from command line:
 
 if [ "$mode" == "CLI" ]; then
-	echo "Exiting XBT.. Goodbye!"
-	exit
+    echo "Exiting XBT.. Goodbye!"
+    exit
 fi
 
 greeting
@@ -188,10 +188,10 @@ restore() {
 
 # Checking for valid media:
 
-if [ ! -d /media/$user/XBT_Drive ]; then
+if [ ! -d /media/"$user"/XBT_Drive ]; then
 
     clear
-	echo $'\n'$"XBT Restore"
+    echo $'\n'$"XBT Restore"
     echo "XBT Error: NO XBT DRIVE FOUND! Please make sure XBT_Drive USB is connected."
     greeting
 
@@ -208,7 +208,7 @@ echo $'\n'$"XBT Restore"
 
 # CHeck for valid media and the host's backup directory:
 
-if [ ! -d /media/$user/XBT_Drive/XBT_Backups/$host/ ]; then
+if [ ! -d /media/"$user"/XBT_Drive/XBT_Backups/"$host"/ ]; then
 
     echo "XBT Error: Cannot find valid backup directory for $host!"
     echo "Drive may not have been used to backup this machine or the"
@@ -220,28 +220,28 @@ fi
 echo $'\n'$"WARNING!"$
 echo $'\n'$"Any new files created in /home since last backup WILL BE DELETED!"
 echo "Are you sure you want to restore now? [y/N]"
-read -n 1 -s choice
+read -r -n 1 -s choice
 
     if test "$choice" == "y"; then
 
         # Giving user a chance to close other apps and starting rsync.
 
         echo "Close any running applications and press any key to continue."
-        read -n 1 -s
+        read -r -n 1 -s
         echo $'\n'$"Restoring /home... Please DO NOT open any applications."
-        sudo rsync -aHv --delete --progress \
-        /media/$user/XBT_Drive/XBT_Backups/$host/Home_Backup/ \
-        /home/
+        
 
             # Checking status of rsync exit code:
 
-            if [ "$?" == "0" ]; then
+            if sudo rsync -aHv --delete --progress \
+        /media/"$user"/XBT_Drive/XBT_Backups/"$host"/Home_Backup/ \
+        /home/; then
 
                 # Prompt user to restart machine and exit:
 
                 # Clear any accidental input during restore:
 
-                read -t 1 -n 10000 discard
+                read -r -t 1 -n 10000 discard
 
                 echo $'\n'$"Restoration complete!"
                 echo "Wait! Syncing drives..."
@@ -250,7 +250,7 @@ read -n 1 -s choice
                 echo "It's now safe to remove XBT_Drive."
                 echo "Restart machine for all changes to take effect."
                 echo $'\n'$"Press any key to exit XBT."
-                read -n 1 -s
+                read -r -n 1 -s
                 clear
                 echo "Exiting XBT ..Goodbye!"
                 sleep 2
@@ -263,7 +263,7 @@ read -n 1 -s choice
 
                 # Clear any accidental input during restore:
 
-                read -t 1 -n 10000 discard
+                read -r -t 1 -n 10000 discard
 
                 clear
                 echo $'\n'$"XBT Restore"
@@ -288,7 +288,7 @@ read -n 1 -s choice
 # Exit if running from command line:
 
 if [ "$mode" == "CLI" ]; then
-	exit
+    exit
 fi
 
 clear
@@ -318,11 +318,8 @@ fi
 
 clear
 cat << _EOF_
-
 XBT Drive Setup
-
  You must create an XBT Drive before you can use XBT.
-
  You can use any USB storage device for your XBT Drive. It should have enough
  storage capacity to hold all of the data in the /home directories of all the
  machines you'd like to make backups from. This tool works with USB storage 
@@ -332,22 +329,18 @@ XBT Drive Setup
  The drive MUST be formatted with a native Linux file system such as Ext4
  or XFS for the backups to retain the correct permissions. You must run XBT
  Backup to set the correct ownership permissions for you new XBT Drive. 
-
-
   *************************************************************************
   * WARNING: XBT Drive Setup will clear ALL DATA on the USB drive chosen! *
   *************************************************************************
-
  Double check you have the drive you want to use plugged in before continuing!
-
 _EOF_
 
 # Giving the user a chance to opt out:
 
 echo "Would you like to setup your XBT Drive now? [y/N]"
-read -n 1 -s choice
+read -r -n 1 -s choice
 
-if test "$choice" == "y"; then
+if [ "$choice" == "y" ]; then
 
     # Checking for sudo permissions:
 
@@ -362,18 +355,18 @@ if test "$choice" == "y"; then
     echo "Type the number for the USB Drive you'd like to use and press Enter."
     echo "You can also just press Enter if there is only one USB drive listed."
     num=1
-        while read p; do
-      	echo $num "-" $p
-    	num=$(($num + 1))
+        while read -r p; do
+          echo "$num" "-" "$p"
+        num=$($num + 1)
     done </tmp/xbt-usb-list.tmp
 
     # Reading user's choice:
 
-    read line
+    read -r line
 
     # Assigning choice to a variable and fixing the format of the answer:
 
-    chosen_disk=` sed -n "$line p" /tmp/xbt-usb-list.tmp | awk '{print $1}' `
+    chosen_disk=$( sed -n "$line p" /tmp/xbt-usb-list.tmp | awk '{print $1}' )
 
     sudo rm /tmp/xbt-usb-list.tmp
 
@@ -398,43 +391,43 @@ if test "$choice" == "y"; then
 
     # Reading answer about formatting:
 
-    read format
+    read -r format
 
     # if chosen, deleting data on drive and creating new formatted partition:
 
-    if test "$format" == "YES"; then
+    if [ "$format" == "YES" ] ; then
 
         # Format the chosen USB drive:
 
-	    echo "Formatting ${chosen_disk}. Please wait..."
+        echo "Formatting ${chosen_disk}. Please wait..."
 
         # Un-mounting the drive:
 
-        sudo umount ${chosen_disk}1 >/dev/null 2>&1
+        sudo umount "${chosen_disk}"1 >/dev/null 2>&1
 
         # Write 2 GBs of zeros to clear old partition tables:
 
-	    sudo dd if=/dev/zero of=${chosen_disk} bs=1024k count=2048
+        sudo dd if=/dev/zero of="${chosen_disk}" bs=1024k count=2048
 
-	    # Creating new label and partition:
+        # Creating new label and partition:
 
-	    sudo parted --script ${chosen_disk} mklabel msdos mkpart primary ext4 1MiB 100%
+        sudo parted --script "${chosen_disk}" mklabel msdos mkpart primary ext4 1MiB 100%
 
-	    # Creating new ext4 file sysem:
+        # Creating new ext4 file sysem:
 
-	    sudo mkfs.ext4 -F ${chosen_disk}1
-	    echo "${chosen_disk} has been formatted! Adding label..."
+        sudo mkfs.ext4 -F "${chosen_disk}"1
+        echo "${chosen_disk} has been formatted! Adding label..."
 
         # Labeling the drive "XBT_Drive":
 
-        sudo e2label ${chosen_disk}1 "XBT_Drive"
+        sudo e2label "${chosen_disk}"1 "XBT_Drive"
         sync
 
         # Returning to Main Menu:
 
         # Clear any accidental input:
 
-        read -t 1 -n 10000 discard
+        read -r -t 1 -n 10000 discard
 
         clear
         echo $'\n'$"XBT Drive Setup complete!"
@@ -447,7 +440,7 @@ if test "$choice" == "y"; then
 
         # Abort format and return to Main Menu:
 
-	    echo "XBT Drive Setup canceled. ${chosen_disk} not formatted."; sleep 3
+        echo "XBT Drive Setup canceled. ${chosen_disk} not formatted."; sleep 3
         clear
         greeting
 
@@ -470,14 +463,10 @@ greeting() {
 
 # XBT Main Menu.
 
-	cat << _EOF_
-
+    cat << _EOF_
 XBT -- External Backup Tool (Version 3.0)
-
 Main Menu: What would you like to do?
-
 Press the number of your choice:
-
     1 - Backup.
     2 - Restore.
     3 - Setup XBT Drive.
@@ -489,7 +478,7 @@ _EOF_
 
 # COnfirming that XBT_Drive USB is ready:
 
-if [ ! -d /media/$user/XBT_Drive ]; then
+if [ ! -d /media/"$user"/XBT_Drive ]; then
 
     # Alert user that XBT Drive is not found:
 
@@ -517,17 +506,17 @@ tput civis
 
 # Wait for user to make a choice and run chosen fucntions:
 
-read -n 1 -s choice;
-	case $choice in
-			1) backup;;
-			2) restore;;
-			3) setup_drive;;
-			4) help;;
+read -r -n 1 -s choice;
+    case "$choice" in
+            1) backup;;
+            2) restore;;
+            3) setup_drive;;
+            4) help;;
             5) log;;
             6) clear;echo $'\n'$"Refreshing USB Status...";sleep 2;clear;greeting;;
             0) clear;echo $'\n'$"Exiting XBT... Goodbye!";sleep 2;tput cnorm;exit;;
             *) echo "Not a valid choice: Please try again.";sleep 2;clear;greeting;;
-	esac
+    esac
 
 }
 
@@ -535,48 +524,37 @@ help() {
 
     # Print help information using less utility:
 
-	clear
+    clear
     less << _EOF_
-
  XBT -- External Backup Tool -- Help
  (v. 3.0)
-
  Press "q" to exit this Help page and return to Main Menu.
-
  Commands:
-
  xbt = Starts XBT program with menu options.
  xbt --backup = Fully backs up host's /etc and /home directories to XBT_Drive.
  xbt --restore = Fully restores host machine's /home directory from XBT_Drive.
  xbt --help = Prints this help information.
  xbt --log = Prints log from XBT drive in interactive viewer. ("q" to exit.)
-
  Description:
-
  XBT is a program that makes keeping all of your user data safely backed up on
  a dedicated External USB drive easy.
-
  XBT will update files that have changed, remove files that have been
  deleted and add any new files that have been created since the last backup.
  The initial backup can take a lot of time if you have a lot of data stored
  in your system's /home directory. XBT creates a directory with the host name
  of the machine it's backing up from inside XBT-Backups. This allows users to
  share one XBT_Drive with multiple machines.
-
  The directory structure and all files are stored openly to allow users easy
  access if they only need to retrieve a few files or directories using a file
  manager. Data from /home can be restored with the built in "xbt restore"
  command if the user wants to roll back to the exact state of /home when the
  last backup was taken.
-
  A simple log file is added to the XBT_Drive that shows when each new
  backup is taken and any errors that might occur. This file is appended
  every time XBT is run. The log file is placed in XBT-Backups. You can view the
  last several backups by using the XBT Log viewer. Press "q" to exit when
  you're done.
-
  Requirements:
-
  XBT is designed to work with Ubuntu and Linux Mint but it should run
  on many other Linux distributions. You need to prepare an XBT Drive.
  This can be any USB storage device. The dedicated USB drive must be
@@ -585,26 +563,17 @@ help() {
  free capacity to store all data in /home on all of the machines you want to
  use the drive for. The drive MUST be labeled as "XBT_Drive" for the script
  to run. If XBT_Drive is not detected, the script exits with an error.
-
  XBT Drive Setup allows you to choose a drive to designate as the XBT Drive. The
  selected drive will be "blanked," formatted with ext4 and labeled 'XBT_Drive."
  This option is available in the Main Menu.
-
  Feedback:
-
  Feel free to contact EzeeLinux with comments and suggestions for XBT and
  future projects.
-
  www.ezeelinux.com
-
  Enjoy using XBT!
-
  - Joe Collins
-
    December, 2017
-
  Disclaimer:
-
  THIS SOFTWARE IS PROVIDED BY EZEELINUX “AS IS” AND ANY EXPRESS OR IMPLIED
  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -615,13 +584,12 @@ help() {
  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
-
 _EOF_
 
 # Exit if running from command line:
 
 if [ "$mode" == "CLI" ]; then
-	exit
+    exit
 fi
 
 clear
@@ -635,7 +603,7 @@ log() {
 
 # Check for valid media and log file:
 
-if [ ! -f /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log ]; then
+if [ ! -f /media/"$user"/XBT_Drive/XBT_Backups/xbt-backup.log ]; then
 
     # Check for log file and return to Main Menu with error if not found:
 
@@ -650,13 +618,13 @@ fi
 # Load log file into less:
 # "less +G" opens file and scrolls to end."
 
-less +G /media/$user/XBT_Drive/XBT_Backups/xbt-backup.log
+less +G /media/"$user"/XBT_Drive/XBT_Backups/xbt-backup.log
 clear
 
 # Exit if running from command line:
 
 if [ "$mode" == "CLI" ]; then
-	exit
+    exit
 fi
 
 greeting
@@ -668,23 +636,23 @@ greeting
 # Checking for command line arguments:
 
 if [ "$1" == "--help" ]; then
-	mode=CLI
-	help
+    mode=CLI
+    help
 fi
 
 if [ "$1" == "--log" ]; then
-	mode=CLI	
-	log
+    mode=CLI	
+    log
 fi
 
 if [ "$1" == "--backup" ]; then
-	mode=CLI	
-	backup
+    mode=CLI	
+    backup
 fi
 
 if [ "$1" == "--restore" ]; then
-	mode=CLI	
-	restore
+    mode=CLI	
+    restore
 fi
 
 if  [ -n "$1"  ]; then
