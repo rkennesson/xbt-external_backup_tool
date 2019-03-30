@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # XBT -- External Backup Tool (v. 3.0) -- by Joe Collins. (www.ezeelinux.com)
 # ...Special Thanks to Jeremy O'Connell and Jody James. (February 18th, 2017)
@@ -13,6 +13,8 @@
 
 # Check for rsync, less and parted, install if needed:
 
+set -xe
+
 hash less 2>/dev/null || sudo apt-get install -yyq less
 hash parted 2>/dev/null || sudo apt-get install -yyq parted
 hash rsync 2>/dev/null || sudo apt-get install -yyq rsync
@@ -20,31 +22,29 @@ hash rsync 2>/dev/null || sudo apt-get install -yyq rsync
 # Declare static variables:
 
 user=$USER
-
 host=$HOSTNAME
 
 # Set functions:
 
-backup() {
+function backup() {
 
 # XBT backup. Runs full backup of /etc and /home directories on host machine.
 
 # Checking for valid media:
 
 if [ ! -d /media/"$user"/XBT_Drive ]; then
-
     clear
     echo $'\n'$"XBT Backup"
-    echo "XBT Error: NO XBT DRIVE FOUND! Please make sure XBT_Drive USB is connected."
-    echo "If you just set up the XBT Drive, remove it and plug it back in."
+    echo "XBT Error: NO XBT DRIVE FOUND! Please make sure XBT_Drive USB is"
+    echo "connected. If you just set up the XBT Drive, remove it and plug it"
+    echo "back in."
     greeting
-
 fi
 
 # Checking for sudo permissions:
 
 if [ "$(id -u)" -ne 0 ]; then 
-    echo XBT Must be run as root 1>&2
+    echo XBT Must be run as root retry with sudo priviledges 1>&2
     exit 1 # terminate and indicate error
 fi
 
@@ -78,7 +78,6 @@ clear
 echo $'\n'$"XBT Backup"
 echo $'\n'$"Backing up /etc..."
 
-
 # Checking status of rsync exit code:
 
 if ! sudo rsync -aHv --delete --progress /etc/ \
@@ -95,7 +94,6 @@ if ! sudo rsync -aHv --delete --progress /etc/ \
 fi
 
 echo $'\n'$"Backing up /home..."
-
 
 # Checking status of rsync exit code:
 
@@ -185,7 +183,7 @@ greeting
 
 }
 
-restore() {
+function restore() {
 
 # XBT Restore. Runs an rsync operation to restore host's /home directory.
 
@@ -299,10 +297,9 @@ greeting
 
 }
 
-setup_drive() {
+function setup_drive() {
 
 # XBT Drive Setup: This function will format and label an USB drive for XBT.
-
 
 # Checking for any USB drive:
 
@@ -462,7 +459,7 @@ greeting
 
 }
 
-greeting() {
+function greeting() {
 
 # XBT Main Menu.
 
@@ -502,7 +499,6 @@ else
 
 fi
 
-
 # Hide the cursor.
 
 tput civis
@@ -523,7 +519,7 @@ read -r -n 1 -s choice;
 
 }
 
-help() {
+function help() {
 
     # Print help information using less utility:
 
@@ -600,7 +596,7 @@ greeting
 
 }
 
-log() {
+function log() {
 
 # XBT Log Viewer. Shows the log file with less.
 
